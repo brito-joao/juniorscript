@@ -11,7 +11,7 @@ export function loadEditor(){
     textbox.setAttribute('class', 'textbox');
     textbox.setAttribute('rows', '10');
     textbox.setAttribute('cols', '50');
-    body.appendChild(textbox);
+    textbox.value="Escreva aqui.";
 
     //create the run button
     const runButton=document.createElement("button");
@@ -28,10 +28,18 @@ export function loadEditor(){
 
     //create the console where the code runs
     const consoleElement=document.createElement("p");
+    consoleElement.innerText="Aqui É onde as respostas irão aparecer ;)";
     consoleElement.setAttribute("class", "console");
 
 
+
+    //create project name header
+    const header=document.createElement("p");
+    header.innerText="JuniorScript Uma língua para todos!";
+    header.setAttribute("class","title");
     //add the elements to the screen 
+    body.appendChild(header);
+    body.appendChild(textbox);
     body.appendChild(runButton);
     body.appendChild(consoleElement);
 }
