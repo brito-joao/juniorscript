@@ -21,8 +21,8 @@ export function loadEditor(){
         //here run the compiler 
         let rawCode=textbox.value;
         console.log(rawCode);
-        mainInterpreter(rawCode);
-        consoleElement.innerText=rawCode+" error";
+        let consoleOutput=mainInterpreter(rawCode);
+        consoleElement.innerText=consoleOutput;
     })
 
 

@@ -1,14 +1,51 @@
 export function mainInterpreter(rawCode){
+    let output={
+        "log":""
+    };
+    let syntax=["escrever"];
     const chars = rawCode.split('');
+
     console.log(chars);
 
-    let lineCharsArray=lineSplitter(chars);
-    lineToWords(lineCharsArray);
+
+    //this array is filtered by line and inside each line, "words";
+    let wordArray=lineToWords(lineSplitter(chars));
+    syntaxCheck(wordArray,syntax,output);
+    console.log(output,"OUT");
     //loop through lines to identify the words
 
-
+    return output.log;
+}
+function syntaxCheck(array,syntaxArray,output){
+    
+    array.forEach((line,index1)=>{
+        //compare like this until I think of something better
+        line.forEach((word,index2)=>{
+            
+            if(word==syntaxArray[0]){
+                //make output equal to all things until the end
+                //make function that returns the rest of the line plus the \n at the end
+                output.log+=escreverWriter(line,word,index1,index2,array);
+                
+            } 
+        })
+        
+        
+        
+    })
+    console.log(output,"outp");
 }
 
+function escreverWriter(line,word,index1,index2,array){
+    let wordsToEnd=line.length-index2+1;
+    let lineOut="";
+    for(var i=0;i<wordsToEnd;i++){
+        
+        lineOut+=array[index1][index2+wordsToEnd];
+    }
+    console.log(lineOut,array,index1,index2,"lineout");
+    return "\n"+lineOut;
+}
 //this will return an array with the lines all divided by \n
 function lineSplitter(charArray){
     let linesArray=[[]];
