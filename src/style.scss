@@ -17,4 +17,8 @@ body{
         height: 5em;
     }
 }
+input:invalid, textarea:invalid {
+    text-decoration: none;
+    
+  }
 

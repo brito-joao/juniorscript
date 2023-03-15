@@ -8,10 +8,11 @@ export function loadEditor(){
 
     //create the text area for the coding ;)
     const textbox=document.createElement("textarea");
+    textbox.spellcheck="false";
     textbox.setAttribute('class', 'textbox');
     textbox.setAttribute('rows', '10');
     textbox.setAttribute('cols', '50');
-    textbox.value="Escreva aqui.";
+    textbox.value="Escrever - olá mundo";
 
     //create the run button
     const runButton=document.createElement("button");
