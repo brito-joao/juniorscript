@@ -3,6 +3,7 @@ export function mainInterpreter(rawCode){
         "log":""
     };
     let syntax=["Escrever","="];
+    let variables=[];
     const chars = rawCode.split('');
 
     console.log(chars);
@@ -10,13 +11,13 @@ export function mainInterpreter(rawCode){
 
     //this array is filtered by line and inside each line, "words";
     let wordArray=lineToWords(lineSplitter(chars));
-    syntaxCheck(wordArray,syntax,output);
+    syntaxCheck(wordArray,syntax,output,variables);
     console.log(output,"OUT");
     //loop through lines to identify the words
 
     return output.log;
 }
-function syntaxCheck(array,syntaxArray,output){
+function syntaxCheck(array,syntaxArray,output,variables){
     
     array.forEach((line,index1)=>{
         //compare like this until I think of something better
@@ -32,6 +33,12 @@ function syntaxCheck(array,syntaxArray,output){
                 if(line[index2+1]=="-"){
                     output.log+=escreverWriter(line,word,index1,index2+2);
                 }
+                variables.forEach((variable,varIndex)=>{
+                    if(word=variable.name){
+                        output.log+= "\n"+variable.value;
+                    }
+                });
+
                 
                 
                 
@@ -42,8 +49,12 @@ function syntaxCheck(array,syntaxArray,output){
             //the goal is to read the "=" sign and then read back the var name
             //when you create a variable store the var like an object with the name and the value in the same object, genius move;)
 
+
+            //the = variable creater
             if(word==syntaxArray[1]){
-                 
+                let newVariable=variableCreator(line,index2);
+                variables.push(newVariable);
+
             }
         })
         
@@ -53,6 +64,26 @@ function syntaxCheck(array,syntaxArray,output){
     console.log(output,"outp");
 }
 
+function variableCreator(line,index2){
+    let variableName=line[index2-1];
+    let variableValue=line[index2+1];
+    let variableType=line[index2+2];
+    let arrayTypeVariable=["int","float","string"];
+    if(variableType==arrayTypeVariable[0]){
+        variableValue=parseInt(variableValue);
+    }
+    if(variableType==arrayTypeVariable[1]){
+        variableValue=parseFloat(variableValue);
+    }
+    
+    console.log(variableName," <= variable name",variableValue," the value");
+    return {
+        "name":variableName,
+        "value":variableValue,
+    }
+
+
+}
 
 //future idea: add way to stop the string 
 function escreverWriter(line,word,index1,index2){
