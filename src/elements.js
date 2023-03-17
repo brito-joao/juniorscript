@@ -36,7 +36,7 @@ export function loadEditor(){
 
     //create project name header
     const header=document.createElement("p");
-    header.innerText="JuniorScript Uma língua para todos!";
+    header.innerText="JuniorScript Uma línguagem para todos!";
     header.setAttribute("class","title");
     //add the elements to the screen 
     body.appendChild(header);

@@ -11,7 +11,13 @@ export function mainInterpreter(rawCode){
 
     //this array is filtered by line and inside each line, "words";
     let wordArray=lineToWords(lineSplitter(chars));
-    syntaxCheck(wordArray,syntax,output,variables);
+    try{
+        syntaxCheck(wordArray,syntax,output,variables);
+    }
+    catch(e){
+        output=e;
+    }
+    
     console.log(output,"OUT");
     //loop through lines to identify the words
 
@@ -34,7 +40,8 @@ function syntaxCheck(array,syntaxArray,output,variables){
                     output.log+=escreverWriter(line,word,index1,index2+2);
                 }
                 variables.forEach((variable,varIndex)=>{
-                    if(word=variable.name){
+                    
+                    if(line[index2+1]==variable.name){
                         output.log+= "\n"+variable.value;
                     }
                 });
@@ -63,6 +70,7 @@ function syntaxCheck(array,syntaxArray,output,variables){
     })
     console.log(output,"outp");
 }
+
 
 function variableCreator(line,index2){
     let variableName=line[index2-1];
