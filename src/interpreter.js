@@ -6,9 +6,6 @@ export function mainInterpreter(rawCode){
     let variables=[];
     const chars = rawCode.split('');
 
-    console.log(chars);
-
-
     //this array is filtered by line and inside each line, "words";
     let wordArray=lineToWords(lineSplitter(chars));
     try{
@@ -42,6 +39,8 @@ function syntaxCheck(array,syntaxArray,output,variables){
                 variables.forEach((variable,varIndex)=>{
                     
                     if(line[index2+1]==variable.name){
+                        //remove this consolelog
+                        console.log(line[index2+1],line,variables,word, "the end");
                         output.log+= "\n"+variable.value;
                     }
                 });
@@ -59,8 +58,23 @@ function syntaxCheck(array,syntaxArray,output,variables){
 
             //the = variable creater
             if(word==syntaxArray[1]){
-                let newVariable=variableCreator(line,index2);
-                variables.push(newVariable);
+                //check if there is a variable that has the same name
+                //create a for loop to check all the variables
+                let newVariable;
+                //make loop if there has 1 or more variables
+                
+                if(variables.length>=1){variables.forEach((variable,index)=>{
+                    if(line[index2-1]==variable.name){
+                        console.log(variables.length>=1,"vars");
+                        newVariable=variableAllocator(variable,index2,line);
+                    }
+                });
+
+                }else{(newVariable=variableCreator(line,index2),variables.push(newVariable))};
+                
+                
+                //only if the variable is new 
+            
 
             }
         })
@@ -71,20 +85,31 @@ function syntaxCheck(array,syntaxArray,output,variables){
     console.log(output,"outp");
 }
 
+function variableAllocator(variable,index,line){
+    //change obje<ct to the new value in the line 
+    console.log(variable,index,line, "hello people");
+    variable.value=line[index+1];
+    return variable;
+}
 
 function variableCreator(line,index2){
+
+    
     let variableName=line[index2-1];
     let variableValue=line[index2+1];
     let variableType=line[index2+2];
-    let arrayTypeVariable=["int","float","string"];
+    let arrayTypeVariable=["int","float","string", "var"];
     if(variableType==arrayTypeVariable[0]){
         variableValue=parseInt(variableValue);
     }
     if(variableType==arrayTypeVariable[1]){
         variableValue=parseFloat(variableValue);
     }
+    if(variableType==arrayTypeVariable[3]){
+        //make a loop to find var name to assign the value
+        
+    }
     
-    console.log(variableName," <= variable name",variableValue," the value");
     return {
         "name":variableName,
         "value":variableValue,
@@ -99,7 +124,6 @@ function escreverWriter(line,word,index1,index2){
     let lineOut="";
     
     for(var i=0;i<wordsToEnd;i++){
-        console.log(line,word,index1,index2,"lineout");
         lineOut+=line[index2+i]+" ";
     }
     
@@ -117,7 +141,6 @@ function lineSplitter(charArray){
             linesArray[lineCounter].push(char);
         }
     });
-    console.log(linesArray);
     return linesArray;
 
 }
@@ -134,10 +157,8 @@ function lineToWords(lineSplittedArray){
 
             if(char== " "){
                 wordCounter+=1;
-                console.log(lines[lineCounter]);
                 lines[lineCounter].push("");
             }else{
-                console.log("lines",lines[lineCounter][wordCounter],char);
                 lines[lineCounter][wordCounter]+=char;
             };
         });
@@ -145,6 +166,5 @@ function lineToWords(lineSplittedArray){
         
         
     });
-    console.log(lines);
     return  lines;
 }
